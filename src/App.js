@@ -1,7 +1,9 @@
 import React from 'react'
+import { Route, Link } from "react-router-dom"
 import * as BooksAPI from './BooksAPI'  // import * as BooksAPI from './BooksAPI'
 import './App.css'
 import ListBooks from './listBooks'
+import Search from './search'
 
 class BooksApp extends React.Component {
   state = {
@@ -11,7 +13,6 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false,
     books: []
   }
 
@@ -26,35 +27,20 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
+         <Route path='/search' exact render={()=>(
+              <Search searchChange={this.searchChange} />
+              )}
+            />
+          <Route path='/' exact render={()=>(
+            <div>
+              <ListBooks books={this.state.books} />
+              <div className="open-search">
+                <Link to = '/search'
+                    >Add a book</Link>
               </div>
             </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
-        ) : (<div className=''>
-          <ListBooks books={this.state.books} />
-          <div className="open-search">
-            <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-          </div>
-        </div>
-          
-        )}
+            )} 
+          />
       </div>
     )
   }
