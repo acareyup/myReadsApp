@@ -47,8 +47,13 @@ class BooksApp extends React.Component {
               <ol className="books-grid"></ol>
             </div>
           </div>
-        ) : (
-         <ListBooks books={this.state.books} />
+        ) : (<div className=''>
+          <ListBooks books={this.state.books} />
+          <div className="open-search">
+            <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+          </div>
+        </div>
+          
         )}
       </div>
     )
