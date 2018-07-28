@@ -7,13 +7,10 @@ import Search from './search'
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    books: []
+    books: [],
+    currentlyReading: [],
+    wantToRead: [],
+    read: []
   }
 
   componentDidMount() {
@@ -21,19 +18,31 @@ class BooksApp extends React.Component {
       this.setState({
         books
       })
+      this.updateBooks()
     })
   }
 
+  updateBooks(){
+    const {books} = this.state
+    let currentlyReading = books.filter(book => book.shelf === "currentlyReading")
+    let wantToRead = books.filter(book => book.shelf === "wantToRead")
+    let read = books.filter(book => book.shelf === "read")
+    this.setState({currentlyReading, wantToRead, read})
+  }
+  
   render() {
     return (
       <div className="app">
          <Route path='/search' exact render={()=>(
-              <Search searchChange={this.searchChange} />
+              <Search books={this.state.books} />
               )}
             />
           <Route path='/' exact render={()=>(
             <div>
-              <ListBooks books={this.state.books} />
+              <ListBooks currentlyReading={this.state.currentlyReading}
+                         wantToRead={this.state.wantToRead}
+                         read={this.state.read}
+              />
               <div className="open-search">
                 <Link to = '/search'
                     >Add a book</Link>
