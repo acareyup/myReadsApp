@@ -1,14 +1,9 @@
 import React, {Component} from 'react' 
 import { Link } from "react-router-dom"
-//import PropTypes from 'prop-types'
 import Book from './Book'
 import * as BooksAPI from './BooksAPI'
 
 class Search extends Component {
-
-    // static propTypes = {
-    //   showingBooks: PropTypes.array.isRequired,
-    // }
 
     state={
       query :'',
@@ -24,9 +19,7 @@ class Search extends Component {
             BooksAPI.search(query, 20).then((dt)=>{
               let showingBooks = dt
               if(dt.length > 1){
-                // eslint-disable-next-line
                 showingBooks.map((book) => {
-                  // eslint-disable-next-line
                   this.props.books.map((b) => {
                     if (book.id === b.id) {
                       book.shelf = b.shelf
