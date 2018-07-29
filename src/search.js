@@ -18,7 +18,7 @@ class Search extends Component {
       if (query) {
             BooksAPI.search(query, 20).then((dt)=>{
               let showingBooks = dt
-              if(dt.length > 1){
+              if(showingBooks.length > 1){
                 showingBooks.map((book) => {
                   this.props.books.map((b) => {
                     if (book.id === b.id) {
@@ -27,7 +27,7 @@ class Search extends Component {
                   })
                 })
 
-                this.setState({showingBooks : dt})
+                this.setState({showingBooks})
               }
             })
       } 

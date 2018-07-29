@@ -31,12 +31,10 @@ class BooksApp extends React.Component {
   }
 
   updateShelf = (evt, book)=>{
-    const {books} = this.state
-    books.forEach((e)=>{
-      if(e.id === book.id){
-        e.shelf = evt.target.value 
-      }
-    })
+    const {books} = this.state;
+    let oldBook=books.filter(e=>e.id===book.id);
+    oldBook[0]? oldBook[0].shelf= evt.target.value:books.push(
+      {...book,shelf:evt.target.value});
     this.setState({books})
     this.updateBooks()
     BooksAPI.update(book, evt.target.value)
