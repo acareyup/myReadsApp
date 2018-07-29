@@ -23,18 +23,31 @@ class BooksApp extends React.Component {
   }
 
   updateBooks(){
-    const {books} = this.state
+    let {books} = this.state
     let currentlyReading = books.filter(book => book.shelf === "currentlyReading")
     let wantToRead = books.filter(book => book.shelf === "wantToRead")
     let read = books.filter(book => book.shelf === "read")
     this.setState({currentlyReading, wantToRead, read})
+    console.log("ok")
+  }
+
+  updateShelf = (evt, book)=>{
+    const {books} = this.state
+    books.forEach((e)=>{
+      if(e.id === book.id){
+        e.shelf = evt.target.value 
+      }
+    })
+    this.setState({books})
+    this.updateBooks()
+    BooksAPI.update(book, evt.target.value)
   }
   
   render() {
     return (
       <div className="app">
          <Route path='/search' exact render={()=>(
-              <Search books={this.state.books} />
+              <Search updateShelf={this.updateShelf} books={this.state.books} />
               )}
             />
           <Route path='/' exact render={()=>(
@@ -42,6 +55,7 @@ class BooksApp extends React.Component {
               <ListBooks currentlyReading={this.state.currentlyReading}
                          wantToRead={this.state.wantToRead}
                          read={this.state.read}
+                         updateShelf = {this.updateShelf}
               />
               <div className="open-search">
                 <Link to = '/search'

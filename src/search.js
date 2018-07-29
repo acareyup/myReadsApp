@@ -1,14 +1,14 @@
 import React, {Component} from 'react' 
 import { Link } from "react-router-dom"
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 import Book from './Book'
 import * as BooksAPI from './BooksAPI'
 
 class Search extends Component {
 
-    static propTypes = {
-      showingBooks: PropTypes.array.isRequired,
-    }
+    // static propTypes = {
+    //   showingBooks: PropTypes.array.isRequired,
+    // }
 
     state={
       query :'',
@@ -22,7 +22,18 @@ class Search extends Component {
     search = (query)=>{
       if (query) {
             BooksAPI.search(query, 20).then((dt)=>{
+              let showingBooks = dt
               if(dt.length > 1){
+                // eslint-disable-next-line
+                showingBooks.map((book) => {
+                  // eslint-disable-next-line
+                  this.props.books.map((b) => {
+                    if (book.id === b.id) {
+                      book.shelf = b.shelf
+                    }
+                  })
+                })
+
                 this.setState({showingBooks : dt})
               }
             })
@@ -31,9 +42,10 @@ class Search extends Component {
 
     render(){
         const {query,showingBooks} = this.state
-        const {books} = this.props
+        const {updateShelf} = this.props
 
         this.search(query)
+        console.log(showingBooks)
         
         return(
             <div className="search-books">
@@ -47,7 +59,7 @@ class Search extends Component {
             <div className="search-books-results">
               <ol className="books-grid">
                 {query && (
-                        <Book books={showingBooks}/>
+                        <Book updateShelf={updateShelf} books={showingBooks}/>
                     )}
               </ol>
             </div>

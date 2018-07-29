@@ -4,7 +4,7 @@ class Book extends Component {
 
 
     render(){
-        const {books, name} = this.props
+        const {books, name, updateShelf} = this.props
         return(
             <div className="list-books-content">
             <div>
@@ -13,18 +13,19 @@ class Book extends Component {
                 <div className="bookshelf-books">
                     <ol className="books-grid">
                         {books.map((book)=>(
-                            <li key={book.title} >
+                            <li key={book.id} >
                                 <div className="book">
                                 <div className="book-top">
                                     <div className="book-cover" key={book.id} style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks !== undefined ? book.imageLinks.thumbnail : ''})` }}></div>
                                     <div className="book-shelf-changer">
-                                    <select>
+                                    <select value={book.shelf} onChange={(evt) => updateShelf(evt, book)} >
                                         <option value="move" disabled>Move to...</option>
                                         <option value="currentlyReading">Currently Reading</option>
                                         <option value="wantToRead">Want to Read</option>
                                         <option value="read">Read</option>
                                         <option value="none">None</option>
                                     </select>
+                                    
                                     </div>
                                 </div>
                                 <div className="book-title"  key={book.title}>{book.title}</div>
