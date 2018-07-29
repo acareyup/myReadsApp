@@ -28,7 +28,6 @@ class BooksApp extends React.Component {
     let wantToRead = books.filter(book => book.shelf === "wantToRead")
     let read = books.filter(book => book.shelf === "read")
     this.setState({currentlyReading, wantToRead, read})
-    console.log("ok")
   }
 
   updateShelf = (evt, book)=>{
@@ -46,7 +45,7 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-         <Route path='/search' exact render={()=>(
+         <Route path='/search' render={()=>(
               <Search updateShelf={this.updateShelf} books={this.state.books} />
               )}
             />

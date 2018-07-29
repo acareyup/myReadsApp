@@ -38,14 +38,13 @@ class Search extends Component {
         const {updateShelf} = this.props
 
         this.search(query)
-        console.log(showingBooks)
         
         return(
             <div className="search-books">
             <div className="search-books-bar">
               <Link  to = '/' className="close-search"> Close </Link>
               <div className="search-books-input-wrapper">
-                <input type="text" placeholder="Search by title or author" value={query} 
+                <input autoFocus type="text" placeholder="Search by title or author" value={query} 
                        onChange={(event)=>this.updateQuery(event.target.value)}/>
               </div>
             </div>
