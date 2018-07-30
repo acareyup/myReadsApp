@@ -28,7 +28,6 @@ class Search extends Component {
                   })
                 })
                 this.setState({showingBooks:foundBooks})
-                console.log(foundBooks)
               } else{
                 this.setState({showingBooks : []})
               }
