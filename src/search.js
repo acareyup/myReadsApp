@@ -10,16 +10,15 @@ class Search extends Component {
       showingBooks : []
     }
 
-    updateQuery = (query)=> {
-        this.setState({query})
-    }
-
-    search = (query)=>{
+    search = (event)=>{
+      const query = event.target.value
+      let foundBooks =[]
+      this.setState({query:query})
       if (query) {
             BooksAPI.search(query, 20).then((dt)=>{
-              let showingBooks = dt
-              if(showingBooks.length > 1){
-                showingBooks.map((book) => {
+              foundBooks = dt
+              if(foundBooks.length > 1){
+                foundBooks.map((book) => {
                   this.props.books.map((b) => {
                     if (book.id === b.id) {
                       book.shelf = b.shelf
@@ -28,18 +27,20 @@ class Search extends Component {
                     }
                   })
                 })
-
-                this.setState({showingBooks})
+                this.setState({showingBooks:foundBooks})
+                console.log(foundBooks)
+              } else{
+                this.setState({showingBooks : []})
               }
             })
-      } 
+      } else {
+        this.setState({showingBooks : []})
+      }
     }
 
     render(){
         const {query,showingBooks} = this.state
         const {updateShelf} = this.props
-
-        this.search(query)
         
         return(
             <div className="search-books">
@@ -47,7 +48,7 @@ class Search extends Component {
               <Link  to = '/' className="close-search"> Close </Link>
               <div className="search-books-input-wrapper">
                 <input autoFocus type="text" placeholder="Search by title or author" value={query} 
-                       onChange={(event)=>this.updateQuery(event.target.value)}/>
+                       onChange={this.search}/>
               </div>
             </div>
             <div className="search-books-results">
