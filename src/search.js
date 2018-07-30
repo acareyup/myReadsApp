@@ -23,6 +23,8 @@ class Search extends Component {
                   this.props.books.map((b) => {
                     if (book.id === b.id) {
                       book.shelf = b.shelf
+                    } else {
+                      book.shelf = 'none'
                     }
                   })
                 })
